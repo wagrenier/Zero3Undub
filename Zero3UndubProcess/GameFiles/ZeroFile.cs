@@ -2,12 +2,12 @@ namespace Zero3UndubProcess.GameFiles
 {
     public class ZeroFile
     {
-        public int FileId { get; init; }
+        public int Id { get; set; }
+        public string Folder { get; set; }
+        public string FileName { get; set; }
         public long Offset { get; init; }
-        public long Size { get; set; }
-        public long SizeUncompressed { get; init; }
-        public long SizeCompress { get; init; }
-        public FileStatus Status { get; init; }
-        public FileType Type { get; init; }
+        public bool IsCompressed { get; set; }
+        public long CompressedSize { get; set; }
+        public long DecompressedSize { get; set; }
     }
 }

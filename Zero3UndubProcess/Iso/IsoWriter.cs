@@ -25,9 +25,9 @@ namespace Zero3UndubProcess.Iso
         {
             var newFileSize = fileContent.Length;
             
-            if (newFileSize > (int) target.Size && target.Type != FileType.AUDIO_HEADER)
+            if (newFileSize > (int) target.DecompressedSize)
             {
-                Console.WriteLine($"Cannot undub file {target.FileId} of type {target.Type}");
+                Console.WriteLine($"Cannot undub file {target.Id}");
                 return;
             }
 
@@ -69,21 +69,21 @@ namespace Zero3UndubProcess.Iso
 
         private void WriteNewAddressFile(ZeroFile origin, ZeroFile target, uint newStartAddress)
         {
-            var fileSizeOffset = target.FileId * GameConstants.FileInfoByteSize;
+            var fileSizeOffset = target.Id * GameConstants.FileInfoByteSize;
             SeekFileTableOffset(fileSizeOffset);
             _writer.Write(newStartAddress);
         }
 
         private void WriteNewSizeFile(ZeroFile origin, ZeroFile target, int newSize)
         {
-            var fileSizeOffset = target.FileId * GameConstants.FileInfoByteSize + 0x4;
+            var fileSizeOffset = target.Id * GameConstants.FileInfoByteSize + 0x4;
             SeekFileTableOffset(fileSizeOffset);
             _writer.Write((uint) newSize);
         }
         
         private void WriteNewSizeFileCompressed(ZeroFile origin, ZeroFile target, int newSize)
         {
-            var fileSizeOffset = target.FileId * GameConstants.FileInfoByteSize + 0x8;
+            var fileSizeOffset = target.Id * GameConstants.FileInfoByteSize + 0x8;
             SeekFileTableOffset(fileSizeOffset);
             _writer.Write(newSize);
         }

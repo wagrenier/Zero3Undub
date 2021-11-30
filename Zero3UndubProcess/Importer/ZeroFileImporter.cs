@@ -34,17 +34,17 @@ namespace Zero3UndubProcess.Importer
                     var originFile = _isoHandler.OriginGetFile(i);
 
                     // Check for splash screen logo
-                    if (targetFile.FileId == 2)
+                    if (targetFile.Id == 2)
                     {
                         _isoHandler.OverwriteSplashScreen(originFile, targetFile);
                     }
 
-                    if (targetFile.Type != FileType.VIDEO && targetFile.Type != FileType.AUDIO)
+                    if (!targetFile.FileName.EndsWith("PSS") || targetFile.FileName.EndsWith("str"))
                     {
                         continue;
                     }
 
-                    if (originFile.Size <= targetFile.Size)
+                    if (originFile.CompressedSize <= targetFile.CompressedSize)
                     {
                         _isoHandler.WriteNewFile(originFile, targetFile);
 
@@ -80,8 +80,8 @@ namespace Zero3UndubProcess.Importer
 
         private void HandleAudioFile(ZeroFile origin, ZeroFile target)
         {
-            var originHeaderFile = _isoHandler.OriginGetFile(origin.FileId - 1);
-            var targetHeaderFile = _isoHandler.TargetGetFile(target.FileId - 1);
+            var originHeaderFile = _isoHandler.OriginGetFile(origin.Id - 1);
+            var targetHeaderFile = _isoHandler.TargetGetFile(target.Id - 1);
             _isoHandler.WriteNewFile(originHeaderFile, targetHeaderFile);
         }
         
